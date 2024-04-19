@@ -1,0 +1,62 @@
+DATASET: CIFAR100
+MODEL VGG16 prebuilt
+TOTAL EPOCHS : 50
+BATCH SIZE : 128
+Learning rate : 0.004
+Loss : Cross Entropy
+Optimizer: SGD
+Epoch 1
+Train mode:
+Train Loss: 4.43102, Train Acc: 3.08444%
+Evaluate mode:
+Train Loss: 4.09262, Train Acc: 6.37778%
+Val Loss: 4.10976, Val Acc: 6.14000%
+
+
+Epoch 2
+Train mode:
+Train Loss: 3.98544, Train Acc: 8.81333%
+Evaluate mode:
+Train Loss: 3.73905, Train Acc: 13.25111%
+Val Loss: 3.75810, Val Acc: 12.56000%
+
+
+Epoch 3
+Train mode:
+Train Loss: 3.68500, Train Acc: 13.76000%
+Evaluate mode:
+Train Loss: 3.41099, Train Acc: 17.90667%
+Val Loss: 3.49847, Val Acc: 16.88000%
+
+
+Epoch 4
+Train mode:
+Train Loss: 3.43115, Train Acc: 18.32222%
+Evaluate mode:
+Train Loss: 3.15849, Train Acc: 23.81111%
+Val Loss: 3.28281, Val Acc: 21.12000%
+
+
+Epoch 5
+Train mode:
+Train Loss: 3.17679, Train Acc: 22.65333%
+Evaluate mode:
+Train Loss: 2.86451, Train Acc: 28.57111%
+Val Loss: 3.05823, Val Acc: 25.26000%
+
+
+Epoch 6
+Train mode:
+Train Loss: 2.94607, Train Acc: 27.01556%
+Evaluate mode:
+Train Loss: 2.56419, Train Acc: 35.25111%
+Val Loss: 2.84671, Val Acc: 29.82000%
+
+
+Epoch 7
+Train mode:
+Train Loss: 2.72394, Train Acc: 31.48444%
+Evaluate mode:
+Train Loss: 2.29738, Train Acc: 41.63556%
+Val Loss: 2.66549, Val Acc: 32.72000%
+
