@@ -14,11 +14,11 @@ def prepare_data(batch_size, resize, mean, std, valid_split):
         transforms.Resize(resize),  # Resize to 224x224 to match VGG's expected input
         transforms.RandomHorizontalFlip(),  # Data augmentation
         transforms.ToTensor(),
-        transforms.Normalize(mean=mean, std=std)  # CIFAR-100 normalization
+        transforms.Normalize(mean=mean, std=std)  # CIFAR-10 normalization
     ])
 
-    trainset = torchvision.datasets.CIFAR100(root='./data', train=True, download=True, transform=transform)
-    testset = torchvision.datasets.CIFAR100(root='./data', train=False, download=True, transform=transform)
+    trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)
+    testset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform)
 
     num_train = len(trainset)
     indices = list(range(num_train))
@@ -60,7 +60,7 @@ def evaluate_model(loader, model, device):
 
 
 #hyper params
-learning_rate = 0.01
+learning_rate = 0.001
 momentum = 0.9
 weight_decay = 1e-4
 num_epochs = 20
@@ -68,7 +68,7 @@ batch_size = 32
 
 
 # Specify the name or path of the directory to create
-dir_name = "results/BS{}-E{}-lr{}-SGD-CE-CIFAR100".format(batch_size,num_epochs,learning_rate)
+dir_name = "results/BS{}-E{}-lr{}-SGD-CE-CIFAR10".format(batch_size,num_epochs,learning_rate)
 # Path of the new directory
 current_path = os.getcwd()  # Get the current working directory
 path = os.path.join(current_path, dir_name)  # Append the new directory to the current path
@@ -76,7 +76,7 @@ path = os.path.join(current_path, dir_name)  # Append the new directory to the c
 if not os.path.exists(path):
     os.makedirs(path)
 
-information = "DATASET: CIFAR100\nDATA AUGMENTATION\nMODEL Resnet18 prebuilt\nTOTAL EPOCHS : {}\nBATCH SIZE : {}\nLearning rate : {}\nLoss : Cross Entropy\nOptimizer: SGD".format(num_epochs,batch_size,  learning_rate)
+information = "DATASET: CIFAR10\nDATA AUGMENTATION\nMODEL Resnet18 prebuilt\nTOTAL EPOCHS : {}\nBATCH SIZE : {}\nLearning rate : {}\nLoss : Cross Entropy\nOptimizer: SGD".format(num_epochs,batch_size,  learning_rate)
 
 with open(os.path.join(path,'log_train.txt'), 'a') as file:
         file.write(information)
@@ -85,14 +85,14 @@ with open(os.path.join(path,'log_train.txt'), 'a') as file:
         
 trainloader, validloader, testloader = prepare_data(batch_size = batch_size, 
                                                     resize = 224,
-                                                    mean= [0.485, 0.456, 0.406],
-                                                    std= [0.229, 0.224, 0.225], 
+                                                    mean=[0.4914, 0.4822, 0.4465],
+                                                    std=[0.2023, 0.1994, 0.2010],  
                                                     valid_split = 0.1)
 
 # Define the Resnet18 Model
 # Initialize ResNet18
 model = resnet18(pretrained=False)  # Do not use pretrained weights
-model.fc = nn.Linear(model.fc.in_features, 100)  # Adjust for 100 classes in CIFAR-100
+model.fc = nn.Linear(model.fc.in_features, 10)  # Adjust for 10 classes in CIFAR-10
 
 # Loss function and optimizer
 criterion = nn.CrossEntropyLoss()
@@ -167,7 +167,7 @@ with open(os.path.join(path,'log_train.txt'), 'a') as file:
         file.write(log_info)
 
 
-model_name = "model-Resnet18-prebuilt-BS{}-E{}-lr{}-SGD-CE-CIFAR100.pt".format(batch_size,num_epochs,learning_rate)
+model_name = "model-Resnet18-prebuilt-BS{}-E{}-lr{}-SGD-CE-CIFAR10.pt".format(batch_size,num_epochs,learning_rate)
 torch.save(model, os.path.join(path,model_name))
 
 with open(os.path.join(path,'losses-and-accuracies.txt'), 'a') as file:

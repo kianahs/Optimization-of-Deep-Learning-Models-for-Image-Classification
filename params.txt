@@ -1,0 +1,12 @@
+num_epochs
+batch_size
+momentum
+weight decay
+mean
+std
+learning rate
+resize
+valid split
+cross entropy loss
+optimizer SGD or ADAM
+Data augmentation

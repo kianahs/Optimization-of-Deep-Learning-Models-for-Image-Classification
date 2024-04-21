@@ -7,10 +7,12 @@ from torch.utils.data.sampler import SubsetRandomSampler
 import numpy as np
 import os
 
-
+#DATA AUGMENTATION TECHNIQUE
+aug = 1
 def prepare_data(batch_size, resize, mean, std, valid_split):
     transform = transforms.Compose([
         transforms.Resize(resize),  # Resize to 224x224 to match VGG's expected input
+        transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Normalize(mean=mean, std=std)  # CIFAR-100 normalization
     ])
@@ -58,15 +60,18 @@ def evaluate_model(loader, model, device):
 
 
 #hyper params
-learning_rate = 0.004
+learning_rate = 0.006
 momentum = 0.9
 weight_decay = 0.005
 num_epochs = 50
-batch_size = 128
+batch_size = 64
 
 
 # Specify the name or path of the directory to create
 dir_name = "results/BS{}-E{}-lr{}-SGD-CE-CIFAR100".format(batch_size,num_epochs,learning_rate)
+if aug == 1:
+    dir_name = "results/BS{}-E{}-lr{}-SGD-CE-AUG-CIFAR100".format(batch_size,num_epochs,learning_rate)
+
 # Path of the new directory
 current_path = os.getcwd()  # Get the current working directory
 path = os.path.join(current_path, dir_name)  # Append the new directory to the current path
@@ -75,6 +80,8 @@ if not os.path.exists(path):
     os.makedirs(path)
 
 information = "DATASET: CIFAR100\nMODEL VGG16 prebuilt\nTOTAL EPOCHS : {}\nBATCH SIZE : {}\nLearning rate : {}\nLoss : Cross Entropy\nOptimizer: SGD".format(num_epochs,batch_size,  learning_rate)
+if aug == 1:
+    information = "DATASET: CIFAR100\nDATA AUGMENTATION\nMODEL VGG16 prebuilt\nTOTAL EPOCHS : {}\nBATCH SIZE : {}\nLearning rate : {}\nLoss : Cross Entropy\nOptimizer: SGD".format(num_epochs,batch_size,  learning_rate)
 
 with open(os.path.join(path,'log_train.txt'), 'a') as file:
         file.write(information)
@@ -156,7 +163,7 @@ for epoch in range(num_epochs):  # Number of epochs
 print('Finished Training')
 
 # Final evaluation on test data
-test_accuracy, test_loss = evaluate_model(testloader, model)
+test_accuracy, test_loss = evaluate_model(testloader, model, device)
 log_info = f'Test Loss: {test_loss:.5f}, Test Acc: {test_accuracy:.5f}%'
 print(log_info)
 
@@ -165,6 +172,10 @@ with open(os.path.join(path,'log_train.txt'), 'a') as file:
 
 
 model_name = "model-VGG16-prebuilt-BS{}-E{}-lr{}-SGD-CE-CIFAR100.pt".format(batch_size,num_epochs,learning_rate)
+
+if aug == 1:
+    model_name = "model-VGG16-prebuilt-BS{}-E{}-lr{}-SGD-CE-AUG-CIFAR100.pt".format(batch_size,num_epochs,learning_rate)
+
 torch.save(model, os.path.join(path,model_name))
 
 with open(os.path.join(path,'losses-and-accuracies.txt'), 'a') as file:
