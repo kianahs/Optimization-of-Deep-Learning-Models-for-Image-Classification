@@ -6,13 +6,17 @@ from torchvision.models import vgg16
 from torch.utils.data.sampler import SubsetRandomSampler
 import numpy as np
 import os
+from torchvision.transforms import RandomCrop, RandomRotation, ColorJitter
+
 
 #DATA AUGMENTATION TECHNIQUE
 aug = 1
-def prepare_data(batch_size, resize, mean, std, valid_split):
+def prepare_data(batch_size, resize, random_crop_size ,mean, std, valid_split):
     transform = transforms.Compose([
         transforms.Resize(resize),  # Resize to 224x224 to match VGG's expected input
         transforms.RandomHorizontalFlip(),
+        transforms.RandomRotation(15),  # Random rotation between -15 and +15 degrees
+        transforms.RandomCrop(random_crop_size, padding=4),  # Pad by 4 pixels and then randomly crop
         transforms.ToTensor(),
         transforms.Normalize(mean=mean, std=std)  # CIFAR-100 normalization
     ])
@@ -60,17 +64,18 @@ def evaluate_model(loader, model, device):
 
 
 #hyper params
-learning_rate = 0.006
+learning_rate = 0.01
 momentum = 0.9
 weight_decay = 0.005
-num_epochs = 50
-batch_size = 64
+num_epochs = 200
+batch_size = 128
+random_crop_size = 32
 
 
 # Specify the name or path of the directory to create
-dir_name = "results/BS{}-E{}-lr{}-SGD-CE-CIFAR100".format(batch_size,num_epochs,learning_rate)
+dir_name = "results/BS{}-E{}-lrschCosSingle{}-SGD-CE-CIFAR100".format(batch_size,num_epochs,learning_rate)
 if aug == 1:
-    dir_name = "results/BS{}-E{}-lr{}-SGD-CE-AUG-CIFAR100".format(batch_size,num_epochs,learning_rate)
+    dir_name = "results/BS{}-E{}-lrschCosSingle{}-SGD-CE-AUG-CIFAR100".format(batch_size,num_epochs,learning_rate)
 
 # Path of the new directory
 current_path = os.getcwd()  # Get the current working directory
@@ -81,7 +86,7 @@ if not os.path.exists(path):
 
 information = "DATASET: CIFAR100\nMODEL VGG16 prebuilt\nTOTAL EPOCHS : {}\nBATCH SIZE : {}\nLearning rate : {}\nLoss : Cross Entropy\nOptimizer: SGD".format(num_epochs,batch_size,  learning_rate)
 if aug == 1:
-    information = "DATASET: CIFAR100\nDATA AUGMENTATION\nMODEL VGG16 prebuilt\nTOTAL EPOCHS : {}\nBATCH SIZE : {}\nLearning rate : {}\nLoss : Cross Entropy\nOptimizer: SGD".format(num_epochs,batch_size,  learning_rate)
+    information = "DATASET: CIFAR100\nDATA AUGMENTATION + random crop size {} and rotate\nMODEL VGG16 prebuilt\nTOTAL EPOCHS : {}\nBATCH SIZE : {}\nLearning rate : {}\nLoss : Cross Entropy\nOptimizer: SGD".format(random_crop_size,num_epochs,batch_size,  learning_rate)
 
 with open(os.path.join(path,'log_train.txt'), 'a') as file:
         file.write(information)
@@ -90,6 +95,7 @@ with open(os.path.join(path,'log_train.txt'), 'a') as file:
         
 trainloader, validloader, testloader = prepare_data(batch_size = batch_size, 
                                                     resize = 224,
+                                                    random_crop_size= random_crop_size,
                                                     mean= [0.485, 0.456, 0.406],
                                                     std= [0.229, 0.224, 0.225], 
                                                     valid_split = 0.1)
@@ -101,6 +107,7 @@ model.classifier[6] = nn.Linear(4096, 100)  # Change the output layer for 100 cl
 # Loss function and optimizer
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=weight_decay , momentum=momentum)
+scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=num_epochs)
 
 
 # Device configuration
@@ -137,7 +144,7 @@ for epoch in range(num_epochs):  # Number of epochs
         total += labels.size(0)
         correct += (predicted == labels).sum().item()
 
-
+    scheduler.step()
     running_train_losses.append(running_loss/len(trainloader))
     running_train_accuracies.append(100 * correct / total)
     
@@ -171,10 +178,10 @@ with open(os.path.join(path,'log_train.txt'), 'a') as file:
         file.write(log_info)
 
 
-model_name = "model-VGG16-prebuilt-BS{}-E{}-lr{}-SGD-CE-CIFAR100.pt".format(batch_size,num_epochs,learning_rate)
+model_name = "model-VGG16-prebuilt-BS{}-E{}-lrschCosSingle{}-SGD-CE-CIFAR100.pt".format(batch_size,num_epochs,learning_rate)
 
 if aug == 1:
-    model_name = "model-VGG16-prebuilt-BS{}-E{}-lr{}-SGD-CE-AUG-CIFAR100.pt".format(batch_size,num_epochs,learning_rate)
+    model_name = "model-VGG16-prebuilt-BS{}-E{}-lrschCosSingle{}-SGD-CE-AUG-CIFAR100.pt".format(batch_size,num_epochs,learning_rate)
 
 torch.save(model, os.path.join(path,model_name))
 
