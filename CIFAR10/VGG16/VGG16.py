@@ -6,14 +6,17 @@ from torchvision.models import vgg16
 from torch.utils.data.sampler import SubsetRandomSampler
 import numpy as np
 import os
+from torchvision.transforms import RandomCrop, RandomRotation, ColorJitter
 
 
 aug = 1
 #DATA AUGMENTATION TECHNIQUE
-def prepare_data(batch_size, resize, mean, std, valid_split):
+def prepare_data(batch_size, resize,random_crop_size, mean, std, valid_split):
     transform = transforms.Compose([
         transforms.Resize(resize),  # Resize to 224x224 to match VGG's expected input
         transforms.RandomHorizontalFlip(),  # Data augmentation
+        transforms.RandomRotation(15),  # Random rotation between -15 and +15 degrees
+        transforms.RandomCrop(random_crop_size, padding=4),  # Pad by 4 pixels and then randomly crop
         transforms.ToTensor(),
         transforms.Normalize(mean=mean, std=std)  # CIFAR-10 normalization
     ])
@@ -61,12 +64,13 @@ def evaluate_model(loader, model, device):
 
 
 #hyper params
-learning_rate = 0.02
+learning_rate = 0.001
 momentum = 0.9
 weight_decay = 0.005
-num_epochs = 80
-batch_size = 64
-
+num_epochs = 100
+batch_size = 128
+random_crop_size =224
+resize = 256
 
 # Specify the name or path of the directory to create
 dir_name = "results/BS{}-E{}-lr{}-SGD-CE-CIFAR10".format(batch_size,num_epochs,learning_rate)
@@ -84,7 +88,7 @@ if not os.path.exists(path):
 information = "DATASET: CIFAR10\nMODEL VGG16 prebuilt\nTOTAL EPOCHS : {}\nBATCH SIZE : {}\nLearning rate : {}\nLoss : Cross Entropy\nOptimizer: SGD".format(num_epochs,batch_size,  learning_rate)
 
 if aug == 1:
-    information = "DATASET: CIFAR10\nDATA AUGMENTATION\nMODEL VGG16 prebuilt\nTOTAL EPOCHS : {}\nBATCH SIZE : {}\nLearning rate : {}\nLoss : Cross Entropy\nOptimizer: SGD".format(num_epochs,batch_size,  learning_rate)
+    information = "DATASET: CIFAR10\nDATA AUGMENTATION+random rotation and random crop size {} \nMODEL VGG16 prebuilt\nTOTAL EPOCHS : {}\nBATCH SIZE : {}\nLearning rate : {}\nLoss : Cross Entropy\nOptimizer: SGD".format(random_crop_size,num_epochs,batch_size,  learning_rate)
 
 
 with open(os.path.join(path,'log_train.txt'), 'a') as file:
@@ -93,7 +97,8 @@ with open(os.path.join(path,'log_train.txt'), 'a') as file:
         
         
 trainloader, validloader, testloader = prepare_data(batch_size = batch_size, 
-                                                    resize = 224,
+                                                    resize = resize,
+                                                    random_crop_size = random_crop_size,
                                                     mean=[0.4914, 0.4822, 0.4465],
                                                     std=[0.2023, 0.1994, 0.2010], 
                                                     valid_split = 0.1)
@@ -105,6 +110,7 @@ model.classifier[6] = nn.Linear(4096, 10)  # Change the output layer for 10 clas
 # Loss function and optimizer
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=weight_decay , momentum=momentum)
+# optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
 
 
 # Device configuration

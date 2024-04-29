@@ -69,7 +69,8 @@ momentum = 0.9
 weight_decay = 0.005
 num_epochs = 200
 batch_size = 128
-random_crop_size = 32
+random_crop_size = 224
+resize = 256
 
 
 # Specify the name or path of the directory to create
@@ -94,7 +95,7 @@ with open(os.path.join(path,'log_train.txt'), 'a') as file:
         
         
 trainloader, validloader, testloader = prepare_data(batch_size = batch_size, 
-                                                    resize = 224,
+                                                    resize = resize,
                                                     random_crop_size= random_crop_size,
                                                     mean= [0.485, 0.456, 0.406],
                                                     std= [0.229, 0.224, 0.225], 

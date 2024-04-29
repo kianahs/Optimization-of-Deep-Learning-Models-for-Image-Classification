@@ -8,11 +8,13 @@ import numpy as np
 import os
 
 ####DATA AUGMENTATION TECHNIQUE
-
-def prepare_data(batch_size, resize, mean, std, valid_split):
+aug = 1
+def prepare_data(batch_size, resize,random_crop_size, mean, std, valid_split):
     transform = transforms.Compose([
         transforms.Resize(resize),  # Resize to 224x224 to match VGG's expected input
         transforms.RandomHorizontalFlip(),  # Data augmentation
+        transforms.RandomRotation(15),  # Random rotation between -15 and +15 degrees
+        transforms.RandomCrop(random_crop_size, padding=4),  # Pad by 4 pixels and then randomly crop
         transforms.ToTensor(),
         transforms.Normalize(mean=mean, std=std)  # CIFAR-10 normalization
     ])
@@ -63,12 +65,15 @@ def evaluate_model(loader, model, device):
 learning_rate = 0.001
 momentum = 0.9
 weight_decay = 1e-4
-num_epochs = 20
-batch_size = 32
-
-
+num_epochs = 100
+batch_size = 64
+random_crop_size = 224
+resize = 256
 # Specify the name or path of the directory to create
-dir_name = "results/BS{}-E{}-lr{}-SGD-CE-CIFAR10".format(batch_size,num_epochs,learning_rate)
+dir_name = "results/BS{}-E{}-lr{}-Adam-CE-CIFAR10".format(batch_size,num_epochs,learning_rate)
+if aug==1:
+    dir_name = "results/BS{}-E{}-lr{}-Adam-CE-AUG-CIFAR10".format(batch_size,num_epochs,learning_rate)
+
 # Path of the new directory
 current_path = os.getcwd()  # Get the current working directory
 path = os.path.join(current_path, dir_name)  # Append the new directory to the current path
@@ -76,7 +81,10 @@ path = os.path.join(current_path, dir_name)  # Append the new directory to the c
 if not os.path.exists(path):
     os.makedirs(path)
 
-information = "DATASET: CIFAR10\nDATA AUGMENTATION\nMODEL Resnet18 prebuilt\nTOTAL EPOCHS : {}\nBATCH SIZE : {}\nLearning rate : {}\nLoss : Cross Entropy\nOptimizer: SGD".format(num_epochs,batch_size,  learning_rate)
+information = "DATASET: CIFAR10\nMODEL Resnet18 prebuilt\nTOTAL EPOCHS : {}\nBATCH SIZE : {}\nLearning rate : {}\nLoss : Cross Entropy\nOptimizer: Adam".format(num_epochs,batch_size,  learning_rate)
+
+if aug == 1:
+    information = "DATASET: CIFAR10\nDATA AUGMENTATION + random crop size {} and rotate\nMODEL Resnet18 prebuilt\nTOTAL EPOCHS : {}\nBATCH SIZE : {}\nLearning rate : {}\nLoss : Cross Entropy\nOptimizer: Adam".format(random_crop_size,num_epochs,batch_size,  learning_rate)
 
 with open(os.path.join(path,'log_train.txt'), 'a') as file:
         file.write(information)
@@ -84,7 +92,8 @@ with open(os.path.join(path,'log_train.txt'), 'a') as file:
         
         
 trainloader, validloader, testloader = prepare_data(batch_size = batch_size, 
-                                                    resize = 224,
+                                                    resize = resize,
+                                                    random_crop_size= random_crop_size,
                                                     mean=[0.4914, 0.4822, 0.4465],
                                                     std=[0.2023, 0.1994, 0.2010],  
                                                     valid_split = 0.1)
@@ -96,7 +105,8 @@ model.fc = nn.Linear(model.fc.in_features, 10)  # Adjust for 10 classes in CIFAR
 
 # Loss function and optimizer
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=weight_decay , momentum=momentum)
+# optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=weight_decay , momentum=momentum)
+optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay )
 
 
 # Device configuration
@@ -166,8 +176,12 @@ print(log_info)
 with open(os.path.join(path,'log_train.txt'), 'a') as file:
         file.write(log_info)
 
+model_name = "model-Resnet18-prebuilt-BS{}-E{}-lr{}-Adam-CE-CIFAR10.pt".format(batch_size,num_epochs,learning_rate)
 
-model_name = "model-Resnet18-prebuilt-BS{}-E{}-lr{}-SGD-CE-CIFAR10.pt".format(batch_size,num_epochs,learning_rate)
+if aug == 1:
+    model_name = "model-Resnet18-prebuilt-BS{}-E{}-lr{}-Adam-CE-AUG-CIFAR10.pt".format(batch_size,num_epochs,learning_rate)
+
+    
 torch.save(model, os.path.join(path,model_name))
 
 with open(os.path.join(path,'losses-and-accuracies.txt'), 'a') as file:

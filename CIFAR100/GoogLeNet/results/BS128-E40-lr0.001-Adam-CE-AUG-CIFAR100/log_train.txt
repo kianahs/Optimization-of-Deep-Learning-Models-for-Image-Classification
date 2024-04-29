@@ -1,0 +1,328 @@
+DATASET: CIFAR100
+Data AUGMENTATION+random crop and rotate
+MODEL GoogLeNet prebuilt
+TOTAL EPOCHS : 40
+BATCH SIZE : 128
+Learning rate : 0.001
+Loss : Cross Entropy
+Optimizer: Adam
+Epoch 1
+Train mode:
+Train Loss: 6.37412, Train Acc: 7.81556%
+Evaluate mode:
+Train Loss: 3.72355, Train Acc: 10.88000%
+Val Loss: 3.74700, Val Acc: 10.24000%
+
+
+Epoch 2
+Train mode:
+Train Loss: 5.48718, Train Acc: 16.34000%
+Evaluate mode:
+Train Loss: 3.31595, Train Acc: 18.24667%
+Val Loss: 3.39604, Val Acc: 17.20000%
+
+
+Epoch 3
+Train mode:
+Train Loss: 4.82439, Train Acc: 25.03111%
+Evaluate mode:
+Train Loss: 2.84353, Train Acc: 27.49111%
+Val Loss: 2.90159, Val Acc: 26.34000%
+
+
+Epoch 4
+Train mode:
+Train Loss: 4.27759, Train Acc: 32.43556%
+Evaluate mode:
+Train Loss: 2.44714, Train Acc: 34.91556%
+Val Loss: 2.54482, Val Acc: 32.34000%
+
+
+Epoch 5
+Train mode:
+Train Loss: 3.82395, Train Acc: 39.44000%
+Evaluate mode:
+Train Loss: 2.15602, Train Acc: 41.55333%
+Val Loss: 2.31148, Val Acc: 37.38000%
+
+
+Epoch 6
+Train mode:
+Train Loss: 3.50258, Train Acc: 44.35778%
+Evaluate mode:
+Train Loss: 1.93123, Train Acc: 47.06000%
+Val Loss: 2.12017, Val Acc: 43.68000%
+
+
+Epoch 7
+Train mode:
+Train Loss: 3.21649, Train Acc: 49.12444%
+Evaluate mode:
+Train Loss: 1.85935, Train Acc: 48.66222%
+Val Loss: 2.08379, Val Acc: 43.74000%
+
+
+Epoch 8
+Train mode:
+Train Loss: 2.98888, Train Acc: 52.70889%
+Evaluate mode:
+Train Loss: 1.62437, Train Acc: 54.19333%
+Val Loss: 1.87592, Val Acc: 48.92000%
+
+
+Epoch 9
+Train mode:
+Train Loss: 2.78896, Train Acc: 55.92889%
+Evaluate mode:
+Train Loss: 1.43189, Train Acc: 58.96889%
+Val Loss: 1.75578, Val Acc: 52.14000%
+
+
+Epoch 10
+Train mode:
+Train Loss: 2.61493, Train Acc: 59.10222%
+Evaluate mode:
+Train Loss: 1.36165, Train Acc: 60.52667%
+Val Loss: 1.69609, Val Acc: 52.92000%
+
+
+Epoch 11
+Train mode:
+Train Loss: 2.46651, Train Acc: 61.81556%
+Evaluate mode:
+Train Loss: 1.16263, Train Acc: 65.75333%
+Val Loss: 1.50064, Val Acc: 57.38000%
+
+
+Epoch 12
+Train mode:
+Train Loss: 2.32276, Train Acc: 63.94000%
+Evaluate mode:
+Train Loss: 1.16329, Train Acc: 65.71778%
+Val Loss: 1.56302, Val Acc: 57.24000%
+
+
+Epoch 13
+Train mode:
+Train Loss: 2.20245, Train Acc: 66.06889%
+Evaluate mode:
+Train Loss: 1.04126, Train Acc: 68.72667%
+Val Loss: 1.49104, Val Acc: 58.00000%
+
+
+Epoch 14
+Train mode:
+Train Loss: 2.08769, Train Acc: 68.02889%
+Evaluate mode:
+Train Loss: 0.97080, Train Acc: 70.68889%
+Val Loss: 1.49147, Val Acc: 58.20000%
+
+
+Epoch 15
+Train mode:
+Train Loss: 1.97866, Train Acc: 70.02000%
+Evaluate mode:
+Train Loss: 0.94051, Train Acc: 71.81333%
+Val Loss: 1.47223, Val Acc: 58.80000%
+
+
+Epoch 16
+Train mode:
+Train Loss: 1.87075, Train Acc: 72.03333%
+Evaluate mode:
+Train Loss: 0.81332, Train Acc: 75.51111%
+Val Loss: 1.36738, Val Acc: 61.40000%
+
+
+Epoch 17
+Train mode:
+Train Loss: 1.77483, Train Acc: 73.73778%
+Evaluate mode:
+Train Loss: 0.80333, Train Acc: 75.39111%
+Val Loss: 1.41074, Val Acc: 61.16000%
+
+
+Epoch 18
+Train mode:
+Train Loss: 1.69031, Train Acc: 75.46889%
+Evaluate mode:
+Train Loss: 0.73159, Train Acc: 77.50000%
+Val Loss: 1.40560, Val Acc: 60.90000%
+
+
+Epoch 19
+Train mode:
+Train Loss: 1.60600, Train Acc: 76.91333%
+Evaluate mode:
+Train Loss: 0.69296, Train Acc: 78.56444%
+Val Loss: 1.41612, Val Acc: 61.54000%
+
+
+Epoch 20
+Train mode:
+Train Loss: 1.52210, Train Acc: 78.60000%
+Evaluate mode:
+Train Loss: 0.59446, Train Acc: 81.52889%
+Val Loss: 1.38967, Val Acc: 63.08000%
+
+
+Epoch 21
+Train mode:
+Train Loss: 1.45434, Train Acc: 79.83333%
+Evaluate mode:
+Train Loss: 0.59343, Train Acc: 81.15556%
+Val Loss: 1.41194, Val Acc: 62.94000%
+
+
+Epoch 22
+Train mode:
+Train Loss: 1.38569, Train Acc: 81.27778%
+Evaluate mode:
+Train Loss: 0.54771, Train Acc: 82.64667%
+Val Loss: 1.42937, Val Acc: 62.46000%
+
+
+Epoch 23
+Train mode:
+Train Loss: 1.31414, Train Acc: 82.83778%
+Evaluate mode:
+Train Loss: 0.52942, Train Acc: 83.12444%
+Val Loss: 1.47239, Val Acc: 62.16000%
+
+
+Epoch 24
+Train mode:
+Train Loss: 1.25632, Train Acc: 83.90000%
+Evaluate mode:
+Train Loss: 0.41523, Train Acc: 86.74000%
+Val Loss: 1.41107, Val Acc: 64.52000%
+
+
+Epoch 25
+Train mode:
+Train Loss: 1.18492, Train Acc: 85.22222%
+Evaluate mode:
+Train Loss: 0.45569, Train Acc: 85.14000%
+Val Loss: 1.44914, Val Acc: 63.76000%
+
+
+Epoch 26
+Train mode:
+Train Loss: 1.14512, Train Acc: 86.13111%
+Evaluate mode:
+Train Loss: 0.35603, Train Acc: 88.49333%
+Val Loss: 1.45008, Val Acc: 64.44000%
+
+
+Epoch 27
+Train mode:
+Train Loss: 1.09262, Train Acc: 87.20889%
+Evaluate mode:
+Train Loss: 0.33665, Train Acc: 89.01333%
+Val Loss: 1.45544, Val Acc: 65.20000%
+
+
+Epoch 28
+Train mode:
+Train Loss: 1.03863, Train Acc: 88.17111%
+Evaluate mode:
+Train Loss: 0.31557, Train Acc: 89.54222%
+Val Loss: 1.50182, Val Acc: 64.12000%
+
+
+Epoch 29
+Train mode:
+Train Loss: 0.99444, Train Acc: 89.25333%
+Evaluate mode:
+Train Loss: 0.27304, Train Acc: 91.12222%
+Val Loss: 1.43856, Val Acc: 65.38000%
+
+
+Epoch 30
+Train mode:
+Train Loss: 0.95456, Train Acc: 89.77778%
+Evaluate mode:
+Train Loss: 0.28851, Train Acc: 90.50667%
+Val Loss: 1.51904, Val Acc: 64.68000%
+
+
+Epoch 31
+Train mode:
+Train Loss: 0.93607, Train Acc: 90.17333%
+Evaluate mode:
+Train Loss: 0.25309, Train Acc: 91.72000%
+Val Loss: 1.51075, Val Acc: 65.76000%
+
+
+Epoch 32
+Train mode:
+Train Loss: 0.88256, Train Acc: 91.26444%
+Evaluate mode:
+Train Loss: 0.24185, Train Acc: 91.94222%
+Val Loss: 1.56084, Val Acc: 64.34000%
+
+
+Epoch 33
+Train mode:
+Train Loss: 0.85776, Train Acc: 91.65333%
+Evaluate mode:
+Train Loss: 0.21879, Train Acc: 92.80889%
+Val Loss: 1.53566, Val Acc: 65.64000%
+
+
+Epoch 34
+Train mode:
+Train Loss: 0.83016, Train Acc: 92.00667%
+Evaluate mode:
+Train Loss: 0.21589, Train Acc: 92.83111%
+Val Loss: 1.56934, Val Acc: 65.02000%
+
+
+Epoch 35
+Train mode:
+Train Loss: 0.80694, Train Acc: 92.54444%
+Evaluate mode:
+Train Loss: 0.19277, Train Acc: 93.66444%
+Val Loss: 1.59233, Val Acc: 65.50000%
+
+
+Epoch 36
+Train mode:
+Train Loss: 0.77699, Train Acc: 92.94222%
+Evaluate mode:
+Train Loss: 0.14777, Train Acc: 95.24222%
+Val Loss: 1.51157, Val Acc: 67.56000%
+
+
+Epoch 37
+Train mode:
+Train Loss: 0.74076, Train Acc: 93.96444%
+Evaluate mode:
+Train Loss: 0.15736, Train Acc: 94.90444%
+Val Loss: 1.56278, Val Acc: 66.78000%
+
+
+Epoch 38
+Train mode:
+Train Loss: 0.73692, Train Acc: 93.75778%
+Evaluate mode:
+Train Loss: 0.15459, Train Acc: 94.90222%
+Val Loss: 1.57811, Val Acc: 66.26000%
+
+
+Epoch 39
+Train mode:
+Train Loss: 0.71222, Train Acc: 94.14667%
+Evaluate mode:
+Train Loss: 0.17877, Train Acc: 94.12667%
+Val Loss: 1.82851, Val Acc: 65.00000%
+
+
+Epoch 40
+Train mode:
+Train Loss: 0.69286, Train Acc: 94.47111%
+Evaluate mode:
+Train Loss: 0.14305, Train Acc: 95.25556%
+Val Loss: 1.64398, Val Acc: 65.72000%
+
+Test Loss: 1.62160, Test Acc: 66.80000%

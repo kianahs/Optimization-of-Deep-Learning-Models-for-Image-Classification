@@ -1,0 +1,87 @@
+DATASET: CIFAR10
+MODEL GoogLeNet prebuilt
+TOTAL EPOCHS : 10
+BATCH SIZE : 64
+Learning rate : 0.01
+Loss : Cross Entropy
+Optimizer: SGD
+Epoch 1
+Train mode:
+Train Loss: 2.48962, Train Acc: 44.92000%
+Evaluate mode:
+Train Loss: 1.30004, Train Acc: 53.00444%
+Val Loss: 1.31842, Val Acc: 52.46000%
+
+
+Epoch 2
+Train mode:
+Train Loss: 1.61395, Train Acc: 65.22000%
+Evaluate mode:
+Train Loss: 0.89973, Train Acc: 68.86889%
+Val Loss: 0.95151, Val Acc: 67.64000%
+
+
+Epoch 3
+Train mode:
+Train Loss: 1.21422, Train Acc: 74.59333%
+Evaluate mode:
+Train Loss: 0.71293, Train Acc: 75.06000%
+Val Loss: 0.77535, Val Acc: 73.18000%
+
+
+Epoch 4
+Train mode:
+Train Loss: 0.98899, Train Acc: 79.80667%
+Evaluate mode:
+Train Loss: 0.50605, Train Acc: 82.29778%
+Val Loss: 0.58376, Val Acc: 79.44000%
+
+
+Epoch 5
+Train mode:
+Train Loss: 0.83947, Train Acc: 83.23111%
+Evaluate mode:
+Train Loss: 0.56750, Train Acc: 80.16444%
+Val Loss: 0.70125, Val Acc: 76.58000%
+
+
+Epoch 6
+Train mode:
+Train Loss: 0.71661, Train Acc: 86.08889%
+Evaluate mode:
+Train Loss: 0.37096, Train Acc: 87.10222%
+Val Loss: 0.53119, Val Acc: 82.30000%
+
+
+Epoch 7
+Train mode:
+Train Loss: 0.61747, Train Acc: 87.88667%
+Evaluate mode:
+Train Loss: 0.37476, Train Acc: 86.65333%
+Val Loss: 0.57048, Val Acc: 81.40000%
+
+
+Epoch 8
+Train mode:
+Train Loss: 0.53753, Train Acc: 89.65111%
+Evaluate mode:
+Train Loss: 0.25409, Train Acc: 91.17111%
+Val Loss: 0.49732, Val Acc: 84.14000%
+
+
+Epoch 9
+Train mode:
+Train Loss: 0.45831, Train Acc: 91.55111%
+Evaluate mode:
+Train Loss: 0.17627, Train Acc: 94.01111%
+Val Loss: 0.44045, Val Acc: 85.38000%
+
+
+Epoch 10
+Train mode:
+Train Loss: 0.39123, Train Acc: 92.97778%
+Evaluate mode:
+Train Loss: 0.14574, Train Acc: 94.88889%
+Val Loss: 0.47651, Val Acc: 85.26000%
+
+Test Loss: 0.49260, Test Acc: 84.84000%
