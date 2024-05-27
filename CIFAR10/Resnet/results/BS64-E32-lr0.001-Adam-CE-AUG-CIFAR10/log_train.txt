@@ -1,3 +1,4 @@
+2024-04-22 19:12:46
 DATASET: CIFAR10
 DATA AUGMENTATION + random crop and rotate
 MODEL Resnet18 prebuilt

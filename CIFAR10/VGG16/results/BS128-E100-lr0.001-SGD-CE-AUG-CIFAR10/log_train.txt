@@ -1,3 +1,4 @@
+2024-04-23 23:48:05
 DATASET: CIFAR10
 DATA AUGMENTATION+random rotation and random crop size 224 
 MODEL VGG16 prebuilt

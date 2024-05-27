@@ -1,3 +1,4 @@
+2024-04-20 10:42:13
 DATASET: CIFAR10
 DATA AUGMENTATION+random crop size 32 and rotate
 MODEL GoogLeNet prebuilt

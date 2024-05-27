@@ -1,3 +1,4 @@
+2024-04-28 12:42:10
 DATASET: CIFAR100
 DATA AUGMENTATION+roatation, crop, colorjitter
 MODEL Resnet18 prebuilt

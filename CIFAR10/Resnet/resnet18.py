@@ -6,7 +6,7 @@ from torchvision.models import resnet18
 from torch.utils.data.sampler import SubsetRandomSampler
 import numpy as np
 import os
-
+import datetime 
 ####DATA AUGMENTATION TECHNIQUE
 aug = 1
 def prepare_data(batch_size, resize,random_crop_size, mean, std, valid_split):
@@ -80,6 +80,10 @@ path = os.path.join(current_path, dir_name)  # Append the new directory to the c
 # Create the directory
 if not os.path.exists(path):
     os.makedirs(path)
+    
+current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+with open(os.path.join(path,'log_train.txt'), 'a') as file:
+        file.write(current_time + '\n')
 
 information = "DATASET: CIFAR10\nMODEL Resnet18 prebuilt\nTOTAL EPOCHS : {}\nBATCH SIZE : {}\nLearning rate : {}\nLoss : Cross Entropy\nOptimizer: Adam".format(num_epochs,batch_size,  learning_rate)
 

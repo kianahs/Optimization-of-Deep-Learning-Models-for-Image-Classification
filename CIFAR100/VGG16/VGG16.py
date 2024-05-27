@@ -7,18 +7,18 @@ from torch.utils.data.sampler import SubsetRandomSampler
 import numpy as np
 import os
 from torchvision.transforms import RandomCrop, RandomRotation, ColorJitter
-
+import datetime 
 
 #DATA AUGMENTATION TECHNIQUE
 aug = 1
 def prepare_data(batch_size, resize, random_crop_size ,mean, std, valid_split):
     transform = transforms.Compose([
-        transforms.Resize(resize),  # Resize to 224x224 to match VGG's expected input
+        transforms.Resize(resize),  
         transforms.RandomHorizontalFlip(),
-        transforms.RandomRotation(15),  # Random rotation between -15 and +15 degrees
-        transforms.RandomCrop(random_crop_size, padding=4),  # Pad by 4 pixels and then randomly crop
+        transforms.RandomRotation(15),  
+        transforms.RandomCrop(random_crop_size, padding=4),  
         transforms.ToTensor(),
-        transforms.Normalize(mean=mean, std=std)  # CIFAR-100 normalization
+        transforms.Normalize(mean=mean, std=std)  
     ])
 
     trainset = torchvision.datasets.CIFAR100(root='./data', train=True, download=True, transform=transform)
@@ -41,7 +41,7 @@ def prepare_data(batch_size, resize, random_crop_size ,mean, std, valid_split):
     return trainloader, validloader, testloader
         
 
-# Function to evaluate the model
+
 def evaluate_model(loader, model, device):
     correct = 0
     total = 0
@@ -62,9 +62,7 @@ def evaluate_model(loader, model, device):
 
 
 
-
-#hyper params
-learning_rate = 0.01
+learning_rate = 0.007
 momentum = 0.9
 weight_decay = 0.005
 num_epochs = 200
@@ -73,17 +71,21 @@ random_crop_size = 224
 resize = 256
 
 
-# Specify the name or path of the directory to create
 dir_name = "results/BS{}-E{}-lrschCosSingle{}-SGD-CE-CIFAR100".format(batch_size,num_epochs,learning_rate)
 if aug == 1:
     dir_name = "results/BS{}-E{}-lrschCosSingle{}-SGD-CE-AUG-CIFAR100".format(batch_size,num_epochs,learning_rate)
 
-# Path of the new directory
-current_path = os.getcwd()  # Get the current working directory
-path = os.path.join(current_path, dir_name)  # Append the new directory to the current path
-# Create the directory
+
+current_path = os.getcwd()  
+path = os.path.join(current_path, dir_name)  
+
 if not os.path.exists(path):
     os.makedirs(path)
+
+current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+with open(os.path.join(path,'log_train.txt'), 'a') as file:
+        file.write(current_time + '\n')
+
 
 information = "DATASET: CIFAR100\nMODEL VGG16 prebuilt\nTOTAL EPOCHS : {}\nBATCH SIZE : {}\nLearning rate : {}\nLoss : Cross Entropy\nOptimizer: SGD".format(num_epochs,batch_size,  learning_rate)
 if aug == 1:
@@ -101,23 +103,22 @@ trainloader, validloader, testloader = prepare_data(batch_size = batch_size,
                                                     std= [0.229, 0.224, 0.225], 
                                                     valid_split = 0.1)
 
-# Define the VGG16 Model
-model = vgg16(pretrained=False)
-model.classifier[6] = nn.Linear(4096, 100)  # Change the output layer for 100 classes
 
-# Loss function and optimizer
+model = vgg16(pretrained=False)
+model.classifier[6] = nn.Linear(4096, 100) 
+
+
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=weight_decay , momentum=momentum)
 scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=num_epochs)
 
 
-# Device configuration
+
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 model.to(device)
 print(device)
 
 
-# Training loop
 train_losses = []
 train_accuracies = []
 running_train_losses = []
@@ -126,7 +127,7 @@ validation_losses = []
 validation_accuracies = []
 
 
-for epoch in range(num_epochs):  # Number of epochs
+for epoch in range(num_epochs):  
     model.train()
     running_loss = 0.0
     total = 0
@@ -170,7 +171,7 @@ for epoch in range(num_epochs):  # Number of epochs
     
 print('Finished Training')
 
-# Final evaluation on test data
+
 test_accuracy, test_loss = evaluate_model(testloader, model, device)
 log_info = f'Test Loss: {test_loss:.5f}, Test Acc: {test_accuracy:.5f}%'
 print(log_info)
